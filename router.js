@@ -56,9 +56,51 @@ router.get('/delete/:id', (req, res) => {
   });
 });
 
-// Ruta para filtrar ventas por mes
+// Ruta para mostrar el formulario de edición
+router.get('/edit/:id', (req, res) => {
+  const productId = req.params.id;
+
+  conexion.query('SELECT * FROM compras_carnicos WHERE id = ?', [productId], (err, results) => {
+    if (err) {
+      console.log('Error en la consulta de edición', err);
+      return res.status(500).send('Error en la base de datos');
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send('Producto no encontrado');
+    }
+
+    const product = results[0];
+    res.render('edit', { product }); // Asegúrate de que el nombre de la vista es correcto
+  });
+});
+
+router.post('/update/:id', (req, res) => {
+  const productId = req.params.id;
+  const { cut, quantity } = req.body;
+  const price = parseFloat(req.body.price); // Convertir a número
+
+  console.log('Actualizando el producto con ID:', productId);
+  console.log('Datos recibidos:', { cut, price, quantity });
+
+  conexion.query('UPDATE compras_carnicos SET producto = ?, precio = ?, cantidad = ? WHERE id = ?', [cut, price, quantity, productId], (err, results) => {
+    if (err) {
+      console.log('Error en la actualización:', err);
+      return res.status(500).send('Error en la base de datos');
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send('Registro no encontrado');
+    }
+
+    res.redirect('/');  // Redirigir a la vista principal después de actualizar
+  });
+});
+
+
+
 router.post('/filter', (req, res) => {
-  const { month } = req.body; // Solo obtenemos el mes
+  const { month } = req.body;
 
   const query = `
     SELECT id, producto, precio, cantidad, DATE_FORMAT(fecha, "%d/%m/%Y") AS fecha, total 
@@ -72,7 +114,6 @@ router.post('/filter', (req, res) => {
       return res.status(500).send('Error en la base de datos');
     }
 
-    // Consulta para obtener la suma total de las ventas filtradas
     const totalQuery = 'SELECT SUM(total) AS total_ventas FROM compras_carnicos WHERE MONTH(fecha) = ?';
     
     conexion.query(totalQuery, [month], (err, totalResults) => {
@@ -81,10 +122,8 @@ router.post('/filter', (req, res) => {
         return res.status(500).send('Error en la base de datos');
       }
 
-      // Obtenemos el total de ventas
       const totalVentas = totalResults[0].total_ventas || 0;
 
-      // Renderizamos la vista y pasamos los resultados y el total
       res.render('index', { results: results, totalVentas: totalVentas });
     });
   });
