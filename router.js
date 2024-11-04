@@ -80,9 +80,6 @@ router.post('/update/:id', (req, res) => {
   const { cut, quantity } = req.body;
   const price = parseFloat(req.body.price); // Convertir a número
 
-  console.log('Actualizando el producto con ID:', productId);
-  console.log('Datos recibidos:', { cut, price, quantity });
-
   conexion.query('UPDATE compras_carnicos SET producto = ?, precio = ?, cantidad = ? WHERE id = ?', [cut, price, quantity, productId], (err, results) => {
     if (err) {
       console.log('Error en la actualización:', err);

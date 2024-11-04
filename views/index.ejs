@@ -82,7 +82,7 @@
     .modal-content {
       border: 2px solid #8b0000;
     }
-    .modal-header {
+    .modal-header{
       background-color: #ffe4e1;
     }
     .modal-title {
@@ -96,6 +96,13 @@
     .btn-secondary {
       background-color: #8b8b8b;
       border: none;
+    }
+    h3 {
+  font-weight: bold;
+    }
+    img {
+      border: 2px solid #8b0000;
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -168,6 +175,35 @@
       <span><%= new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(totalVentas) %></span>
     </div>
   </div>
+   <!-- Nueva sección de información sobre ganadería y carnicería -->
+   <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="https://images.unsplash.com/photo-1530268782463-418534b0affa?q=80&w=2674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Ganado en pastoreo" class="img-fluid mb-3 rounded">
+        <img src="https://plus.unsplash.com/premium_photo-1661962510497-9505129083fa?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cortes de carne" class="img-fluid rounded">
+      </div>
+      <div class="col-md-6">
+        <h3 class="text-center" style="color: #8b0000;">Ganadería de Calidad</h3>
+        <p>
+          En "Los Paisas", trabajamos con los mejores proveedores de ganado para garantizar que nuestros productos sean frescos y de excelente calidad. Nos enorgullecemos de ofrecer carne de res, cerdo y otros productos cárnicos que cumplen con altos estándares de bienestar animal y sostenibilidad.
+        </p>
+        <ul>
+          <li>Ganado de pastoreo controlado.</li>
+          <li>Rigor en la selección de proveedores.</li>
+          <li>Calidad y frescura garantizadas.</li>
+        </ul>
+        <p>
+          Comparte momentos inolvidables con nuestros exquisitos cortes de vacuno, ideales para tus reuniones familiares y eventos con amigos.
+        </p>
+        <h4>¿Quieres saber más?</h4> 
+            <p><a href="https://vaquitaexpress.com.co"> Visita nuestra página web</a> para conocer más sobre nuestros productos,  recetas y consejos de preparación.</p> 
+        <h4>Información de Contacto</h3>
+        <p>Teléfono: +123 456 789</p>
+        <p>Email: <a href="mailto:contacto@lospaisas.com">contacto@lospaisas.com</a></p>
+        <p>Dirección: Calle de la Ganadería, Nº 10, Ciudad</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal de Confirmación -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
@@ -237,7 +273,7 @@
 
     confirmDeleteButton.addEventListener('click', function() {
       fetch(`/delete/${deleteUserId}`, {
-        method: 'DELETE',
+        method: 'GET',
       }).then(() => {
         location.reload();
       });
