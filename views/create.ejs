@@ -3,143 +3,149 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CRUD</title>
+  <title>Registrar Venta de Producto</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  
   <style>
     body {
       font-family: 'Roboto', sans-serif;
-      background-color: #f4f6f9;
+      background-color: #f3ece7;
     }
 
-    .navbar {
-      background-color: #5d5fef;
-    }
-
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .navbar-brand i {
-      margin-right: 8px;
-      font-size: 1.5rem;
-      color: #ffd700;
-    }
-
-    .table th {
-      background-color: #4a69bd;
-      color: #ffffff;
-    }
-
-    .table tbody tr:hover {
-      background-color: #f0f4fa;
+    .container {
+      margin-top: 50px;
+      max-width: 600px;
     }
 
     .card {
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
       border: none;
     }
 
     .card-header {
-      font-size: 1.5rem; 
+      font-size: 1.6rem;
       font-weight: bold;
-      color: #4a69bd;
-      background-color: #eef1f7;
-      border-bottom: none;
+      color: #fff;
+      background-color: #b30000;
+      text-align: center;
+      padding: 15px;
       border-radius: 10px 10px 0 0;
     }
 
     .form-label {
-      font-size: 1rem; 
-      color: #5d5fef;
-      font-weight: 600;
+      font-size: 1.1rem;
+      color: #b30000;
+      font-weight: 700;
     }
 
     .form-control, .form-select {
-      font-size: 1rem; 
+      font-size: 1rem;
       border-radius: 5px;
-      border: 1px solid #ced4da;
+      border: 1px solid #a00;
       transition: border-color 0.2s ease;
     }
 
     .form-control:focus, .form-select:focus {
-      border-color: #5d5fef;
-      box-shadow: 0 0 0 0.2rem rgba(93, 95, 239, 0.25);
+      border-color: #b30000;
+      box-shadow: 0 0 0 0.2rem rgba(179, 0, 0, 0.25);
+    }
+
+    .total-field {
+      background-color: #f8f0f0;
+      border-radius: 5px;
     }
 
     .btn-primary {
-      background-color: #5d5fef;
-      border-color: #5d5fef;
+      background-color: #b30000;
+      border-color: #b30000;
       transition: background-color 0.3s ease, border-color 0.3s ease;
     }
 
     .btn-primary:hover {
-      background-color: #4a56d6;
-      border-color: #4a56d6;
+      background-color: #930000;
+      border-color: #930000;
     }
 
     .btn-secondary {
-      background-color: #6c757d;
-      border-color: #6c757d;
-      transition: background-color 0.3s ease, border-color 0.3s ease;
+      background-color: #757575;
+      border-color: #757575;
+      color: #fff;
     }
 
     .btn-secondary:hover {
-      background-color: #5a6268;
-      border-color: #5a6268;
-    }
-
-    .btn-outline-info {
-      color: #17a2b8;
-    }
-
-    .btn-outline-danger {
-      color: #dc3545;
-    }
-    
-    .container {
-      max-width: 600px;
+      background-color: #5a5a5a;
+      border-color: #5a5a5a;
     }
   </style>
 </head>
 <body>
-
   <div class="container mt-5">
     <div class="card">
-      <div class="card-header text-center">Nuevo Registro</div>
+      <div class="card-header">Registrar Venta</div>
       <div class="card-body">
-        <form action="/save" method="POST" id="userForm">
+        <form action="/save" method="POST" id="saleForm">
+          <!-- Selección de corte de cárnico -->
           <div class="mb-3">
-            <label for="user" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="user" name="user" placeholder="Ingresa el usuario" required>
-          </div>
-          <div class="mb-3">
-            <label for="last_name" class="form-label">Apellidos</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Ingresa los apellidos" required>
-          </div>
-          <div class="mb-3">
-            <label for="rol" class="form-label">Rol</label>
-            <select id="rol" name="rol" class="form-select" required>
-              <option value="Admin" selected>Admin</option>
-              <option value="Docente">Docente</option>
-              <option value="Estudiante">Estudiante</option>
+            <label for="cutSelect" class="form-label">Selecciona el corte de cárnico</label>
+            <select class="form-select" id="cutSelect" name="cut" required>
+              <option value="" selected disabled>Seleccionar corte</option>
+              <option value="Picaña" data-price="35000">Picaña - $35,000 COP/lb</option>
+              <option value="Lomo" data-price="40000">Lomo - $40,000 COP/lb</option>
+              <option value="Bife" data-price="30000">Bife - $30,000 COP/lb</option>
             </select>
           </div>
+          
+          <!-- Cantidad en libras -->
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Cantidad (libras)</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" min="1" placeholder="Ingrese la cantidad en libras" required>
+          </div>
+          
+          <!-- Total en COP -->
+          <div class="mb-3">
+            <label for="total" class="form-label">Total (COP)</label>
+            <input type="text" class="form-control total-field" id="total" name="total" readonly>
+          </div>
+        
+          <!-- Campo oculto para el precio -->
+          <input type="hidden" id="price" name="price">
+        
           <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-primary">Guardar Venta</button>
             <a href="/" class="btn btn-secondary">Cancelar</a>
           </div>
-        </form>
+        </form>        
       </div>
     </div>
   </div>
 
+  <script>
+    // JavaScript para calcular el total
+    document.getElementById('cutSelect').addEventListener('change', calculateTotal);
+    document.getElementById('quantity').addEventListener('input', calculateTotal);
+  
+    function calculateTotal() {
+      const cutSelect = document.getElementById('cutSelect');
+      const quantity = parseFloat(document.getElementById('quantity').value);
+      const selectedOption = cutSelect.options[cutSelect.selectedIndex];
+      const price = parseFloat(selectedOption.getAttribute('data-price'));
+  
+      // Establecer el precio en el campo oculto
+      document.getElementById('price').value = price;
+  
+      if (!isNaN(price) && !isNaN(quantity)) {
+        const total = price * quantity;
+        document.getElementById('total').value = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(total);
+      } else {
+        document.getElementById('total').value = '';
+      }
+    }
+  </script>
+  
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

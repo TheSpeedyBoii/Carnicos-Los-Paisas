@@ -4,7 +4,7 @@ const conexion =  mysql.createConnection({  //Parametros para la conexión a la 
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'crud_nodejs_db'
+    database: 'butcher'
 });
 
 conexion.connect((error)=> {   // Manejo de errores

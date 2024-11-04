@@ -1,54 +1,37 @@
 const conexion = require('../database/db');
 
-exports.save = (req, res) => {
-  const user = req.body.user;
-  const last_name = req.body.last_name;
-  const rol = req.body.rol;
+exports.saveSale = (req, res) => {
+  const producto = req.body.cut; // Asegúrate de que este valor se esté recibiendo
+  const cantidad = parseFloat(req.body.quantity); // Convierte a número
+  const precioPorLibra = parseFloat(req.body.price); // Asegúrate de que este valor se esté recibiendo
+  const totalCalculado = precioPorLibra * cantidad; // Calcula el total
+  const fecha = new Date().toISOString().slice(0, 10); // Fecha actual en formato 'YYYY-MM-DD'
 
-  // Primero verifica si el usuario ya existe
-  conexion.query('SELECT * FROM usuarios WHERE user = ?', [user], (error, results) => {
-    if (error) {
-      console.log('Error en la consulta', error);
-      return res.send(`
-        <script>
-          alert('Hubo un problema al consultar la base de datos. Intenta nuevamente.');
-          window.location.href = '/create';
-        </script>
-      `);
-    }
+  // Asegúrate de que 'precio' se obtenga correctamente
+  if (!producto || isNaN(precioPorLibra) || isNaN(cantidad)) {
+    return res.status(400).send('Datos no válidos');
+  }
 
-    if (results.length > 0) {
-      // Si el usuario ya existe, muestra un mensaje de error
-      res.send(`
-        <script>
-          alert('El usuario ya existe. Por favor, elige otro nombre.');
-          window.location.href = '/create';
-        </script>
-      `);
-    } else {
-      // Si el usuario no existe, procede a insertarlo
-      conexion.query(
-        'INSERT INTO usuarios SET ?',
-        { user: user, last_name: last_name, rol: rol },
-        (error, results) => {
-          if (error) {
-            console.log('Error en la inserción', error);
-            return res.send(`
-              <script>
-                alert('No se pudo registrar el usuario. Intenta nuevamente.');
-                window.location.href = '/create';
-              </script>
-            `);
-          } else {
-            res.send(`
-              <script>
-                alert('El usuario ha sido registrado con éxito.');
-                window.location.href = '/';
-              </script>
-            `);
-          }
-        }
-      );
+  conexion.query(
+    'INSERT INTO compras_carnicos SET ?',
+    { producto, precio: precioPorLibra, cantidad, fecha, total: totalCalculado },
+    (error, results) => {
+      if (error) {
+        console.log('Error en la inserción de la venta', error);
+        return res.send(`
+          <script>
+            alert('No se pudo registrar la venta. Intenta nuevamente.');
+            window.location.href = '/create';
+          </script>
+        `);
+      } else {
+        res.send(`
+          <script>
+            alert('La venta ha sido registrada con éxito.');
+            window.location.href = '/';
+          </script>
+        `);
+      }
     }
-  });
+  );
 };
