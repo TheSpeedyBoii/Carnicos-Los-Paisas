@@ -56,5 +56,39 @@ router.get('/delete/:id', (req, res) => {
   });
 });
 
+// Ruta para filtrar ventas por mes
+router.post('/filter', (req, res) => {
+  const { month } = req.body; // Solo obtenemos el mes
+
+  const query = `
+    SELECT id, producto, precio, cantidad, DATE_FORMAT(fecha, "%d/%m/%Y") AS fecha, total 
+    FROM compras_carnicos 
+    WHERE MONTH(fecha) = ?
+  `;
+
+  conexion.query(query, [month], (err, results) => {
+    if (err) {
+      console.log('Error en la consulta de filtro', err);
+      return res.status(500).send('Error en la base de datos');
+    }
+
+    // Consulta para obtener la suma total de las ventas filtradas
+    const totalQuery = 'SELECT SUM(total) AS total_ventas FROM compras_carnicos WHERE MONTH(fecha) = ?';
+    
+    conexion.query(totalQuery, [month], (err, totalResults) => {
+      if (err) {
+        console.log('Error en la consulta de total', err);
+        return res.status(500).send('Error en la base de datos');
+      }
+
+      // Obtenemos el total de ventas
+      const totalVentas = totalResults[0].total_ventas || 0;
+
+      // Renderizamos la vista y pasamos los resultados y el total
+      res.render('index', { results: results, totalVentas: totalVentas });
+    });
+  });
+});
+
 // Exportamos el router
-module.exports = router; 
+module.exports = router;
