@@ -1,0 +1,61 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+  }
+
+  .navbar {
+    background-color: #563d7c; /* Un morado intenso */
+  }
+
+  .navbar-brand i {
+    margin-right: 8px;
+    font-size: 1.6rem;
+  }
+
+  .table th {
+    background-color: #6f42c1;
+    color: #fff;
+  }
+
+  .table tbody tr:hover {
+    background-color: #e9ecef;
+  }
+
+  .table {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+  }
+
+  .btn-outline-primary {
+    color: #563d7c;
+    border-color: #563d7c;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #563d7c;
+    color: #fff;
+  }
+
+  .btn-outline-info {
+    color: #198754;
+    border-color: #198754;
+  }
+
+  .btn-outline-info:hover {
+    background-color: #198754;
+    color: #fff;
+  }
+
+  .btn-outline-danger {
+    color: #d9534f;
+    border-color: #d9534f;
+  }
+
+  .btn-outline-danger:hover {
+    background-color: #d9534f;
+    color: #fff;
+  }
+
+  .btn i {
+    margin-right: 5px;
+  }
